@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aman Negi | Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Unbounded:wght@600;800&display=swap" rel="stylesheet">
+<script>
+/* Set theme before paint to avoid a flash */
+try { var t = localStorage.getItem("theme"); } catch (e) { var t = null; }
+document.documentElement.dataset.theme = t || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+</script>
+<style>
+:root {
+  --bg: #f4f6fb; --surface: #ffffff; --ink: #0e1330; --muted: #566079; --line: #d8deec;
+  --accent: #3446ff; --accent-ink: #ffffff; --dot: #c3cbe0; --hi: #ffd84d;
+}
+[data-theme="dark"] {
+  --bg: #10142a; --surface: #181d38; --ink: #eef0fb; --muted: #9aa3c4; --line: #2a3158;
+  --accent: #8a97ff; --accent-ink: #10142a; --dot: #2a3158; --hi: #ffd84d;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 400 17px/1.65 "DM Sans", system-ui, sans-serif; }
+a { color: var(--accent); text-underline-offset: 3px; }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+h1, h2, h3, .brand { font-family: "Unbounded", "DM Sans", sans-serif; }
+
+.shell { display: grid; grid-template-columns: 240px 1fr; min-height: 100vh; }
+.side { position: sticky; top: 0; height: 100vh; padding: 32px 28px; display: flex; flex-direction: column; justify-content: space-between; border-right: 1px solid var(--line); }
+.brand { font-weight: 800; font-size: 22px; color: var(--ink); text-decoration: none; letter-spacing: -0.02em; }
+.side nav a { display: block; padding: 8px 0 8px 14px; border-left: 3px solid var(--line); color: var(--muted); text-decoration: none; font-weight: 500; }
+.side nav a:hover { color: var(--ink); }
+.side nav a.on { color: var(--ink); border-color: var(--accent); font-weight: 700; }
+.theme { background: none; border: 1px solid var(--line); color: var(--ink); border-radius: 999px; padding: 8px 16px; font: 500 14px "DM Sans", sans-serif; cursor: pointer; }
+.theme:hover { border-color: var(--accent); }
+
+main section { padding: 96px 56px; max-width: 900px; }
+main section + section { border-top: 1px solid var(--line); }
+h2 { font-weight: 600; font-size: 26px; line-height: 1.2; margin: 0 0 28px; }
+
+/* hero: dot grid that lights up around the cursor */
+.hero { position: relative; max-width: none !important; min-height: 92vh; display: flex; flex-direction: column; justify-content: flex-end; overflow: hidden;
+  --mx: 72%; --my: 35%;
+  background-image: radial-gradient(circle, var(--dot) 1.6px, transparent 1.8px); background-size: 24px 24px; }
+.hero::before { content: ""; position: absolute; inset: 0; pointer-events: none;
+  background-image: radial-gradient(circle, var(--accent) 2px, transparent 2.2px); background-size: 24px 24px;
+  -webkit-mask-image: radial-gradient(190px circle at var(--mx) var(--my), #000, transparent);
+  mask-image: radial-gradient(190px circle at var(--mx) var(--my), #000, transparent); }
+.hero > * { position: relative; }
+.hero h1 { font-weight: 800; font-size: clamp(46px, 8vw, 104px); line-height: 1.02; letter-spacing: -0.04em; margin: 0 0 24px; }
+.hero .role { display: inline-block; align-self: flex-start; background: var(--hi); color: #0e1330; font-weight: 700; padding: 4px 12px; border-radius: 6px; margin-bottom: 20px; }
+.hero p { font-size: 20px; color: var(--muted); max-width: 46ch; margin: 0 0 32px; }
+.row { display: flex; flex-wrap: wrap; gap: 12px; }
+.btn { display: inline-block; padding: 12px 22px; border-radius: 8px; border: 2px solid var(--accent); font: 700 16px "DM Sans", sans-serif; text-decoration: none; cursor: pointer; }
+.btn.fill { background: var(--accent); color: var(--accent-ink); }
+.btn.line { background: none; color: var(--accent); }
+.btn:hover { transform: translateY(-2px); }
+
+.about p { max-width: 62ch; margin: 0 0 1em; }
+
+/* chips */
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px; }
+.chip { font: 500 14px "DM Sans", sans-serif; padding: 6px 14px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); }
+button.chip { cursor: pointer; }
+button.chip:hover, button.chip.on { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+
+/* projects */
+.proj { border: 1px solid var(--line); background: var(--surface); border-radius: 14px; margin-bottom: 14px; }
+.proj.open { border-color: var(--accent); }
+.proj > button { width: 100%; text-align: left; background: none; border: 0; color: inherit; font: inherit; padding: 22px 24px; cursor: pointer; display: grid; grid-template-columns: 1fr auto; gap: 6px 16px; }
+.proj h3 { font-weight: 600; font-size: 19px; margin: 0; }
+.proj .sum { color: var(--muted); grid-column: 1; }
+.proj .plus { grid-row: 1; grid-column: 2; font-size: 28px; line-height: 1; transition: transform .25s; }
+.proj.open .plus { transform: rotate(45deg); }
+.more { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .3s; }
+.proj.open .more { grid-template-rows: 1fr; }
+.more > div { overflow: hidden; }
+.more ul { margin: 0; padding: 0 24px 8px 44px; }
+.more li { margin-bottom: 8px; }
+.more .tags { display: flex; flex-wrap: wrap; gap: 8px; padding: 8px 24px 22px; }
+.more a.src { display: inline-block; padding: 0 24px 22px; font-weight: 700; }
+
+/* skills */
+.grp { margin-bottom: 8px; }
+.grp h3 { font: 700 15px "DM Sans", sans-serif; margin: 0 0 10px; color: var(--muted); }
+.hint { color: var(--muted); font-size: 15px; margin: 0 0 24px; }
+
+/* education */
+.edu { list-style: none; margin: 0; padding: 0; }
+.edu li { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 24px; padding: 18px 0; border-bottom: 1px solid var(--line); }
+.edu b { display: block; }
+.edu span { color: var(--muted); }
+.edu .r { text-align: right; }
+.edu p { margin: 6px 0 0; max-width: 62ch; }
+
+/* contact */
+.links { list-style: none; margin: 28px 0 0; padding: 0; display: grid; gap: 8px; }
+.links b { display: inline-block; min-width: 90px; }
+footer { padding: 28px 56px 48px; color: var(--muted); font-size: 14px; border-top: 1px solid var(--line); }
+#toast { position: fixed; left: 50%; bottom: 28px; transform: translate(-50%, 20px); background: var(--ink); color: var(--bg); padding: 10px 20px; border-radius: 8px; font-weight: 500; opacity: 0; pointer-events: none; transition: .25s; }
+#toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+@media (max-width: 860px) {
+  .shell { display: block; }
+  .side { height: auto; flex-direction: row; align-items: center; gap: 12px; padding: 10px 16px; border-right: 0; border-bottom: 1px solid var(--line); background: var(--bg); z-index: 5; }
+  .side nav { display: flex; overflow-x: auto; flex: 1; }
+  .side nav a { border-left: 0; border-bottom: 3px solid transparent; padding: 6px 10px; white-space: nowrap; }
+  .side nav a.on { border-color: var(--accent); }
+  .theme { padding: 6px 12px; }
+  main section { padding: 64px 20px; }
+  .hero { min-height: 80vh; }
+  footer { padding: 24px 20px 40px; }
+  .edu .r { text-align: left; }
+}
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; } }
+</style>
+</head>
+<body>
+<div class="shell">
+  <aside class="side">
+    <a class="brand" href="#top" id="brand"></a>
+    <nav aria-label="Sections" id="nav">
+      <a href="#top">Home</a><a href="#about">About</a><a href="#projects">Projects</a><a href="#experience">Experience</a>
+      <a href="#skills">Skills</a><a href="#education">Education</a><a href="#contact">Contact</a>
+    </nav>
+    <button class="theme" id="theme" type="button" aria-pressed="false">Dark mode</button>
+  </aside>
+  <div>
+    <main>
+      <section class="hero" id="top">
+        <span class="role" id="role"></span>
+        <h1 id="name"></h1>
+        <p id="intro"></p>
+        <div class="row">
+          <a class="btn fill" href="#projects">See my work</a>
+          <a class="btn line" href="#contact">Get in touch</a>
+        </div>
+      </section>
+      <section class="about" id="about"><h2>About</h2><div id="aboutBody"></div></section>
+      <section id="projects"><h2>Projects</h2><div class="chips" id="filters" role="group" aria-label="Filter projects"></div><div id="projList"></div></section>
+      <section id="experience"><h2>Experience</h2><ul class="edu" id="expList"></ul></section>
+      <section id="skills"><h2>Skills</h2><p class="hint">Click a skill to see the projects that use it.</p><div id="skillList"></div></section>
+      <section id="education"><h2>Education</h2><ul class="edu" id="eduList"></ul></section>
+      <section id="contact"><h2>Contact</h2><p id="contactMsg"></p><div class="row"><button class="btn fill" id="copy" type="button">Copy email</button><a class="btn line" id="mail" href="#">Send an email</a></div><ul class="links" id="links"></ul></section>
+    </main>
+    <footer id="foot"></footer>
+  </div>
+</div>
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script>
+/* ===== EDIT THIS BLOCK ONLY: everything on the page comes from here ===== */
+const DATA = {
+  name: "Aman Negi",
+  role: "Backend Engineer",
+  intro: "I build async APIs and distributed systems with FastAPI, Django and PostgreSQL.",
+  about: [
+    "I'm a backend engineer with experience building distributed systems and RESTful APIs. I specialize in async architectures, background job processing and database optimization using FastAPI, Django and PostgreSQL.",
+    "I've built real-world applications that handle payment verification, rate limiting and location-based queries, on a foundation of system design, async I/O patterns and containerized deployments."
+  ],
+  projects: [
+    { title: "Freelancer Milestone Payment System", summary: "Holds client payments until freelancers complete project milestones.", tags: ["FastAPI", "PostgreSQL", "Celery", "Razorpay"],
+      points: [
+        "Built a FastAPI backend where client deposits stay locked until the freelancer completes a milestone.",
+        "Used PostgreSQL transactions with row-level locking to prevent double-spending when releasing milestone payments.",
+        "Implemented a dispute resolution workflow: both parties upload evidence and an admin reviews it before funds are released.",
+        "Automated payment release with Celery tasks, including a 7-day auto-release when the client is unresponsive.",
+        "Integrated the Razorpay Payout API to send released funds directly to freelancer bank accounts."
+      ], link: "" },
+    { title: "API Monetization & Metering Platform", summary: "Tracks API usage and enforces rate limits for developers.", tags: ["FastAPI", "MongoDB", "Redis", "Celery", "Docker Compose"],
+      points: [
+        "Built a FastAPI proxy that forwards requests to other APIs and logs each call in MongoDB.",
+        "Optimized rate limiting with Redis, counting requests per API key and blocking keys that hit their limit.",
+        "Wrote hourly Celery jobs that total API calls for billing.",
+        "Indexed MongoDB queries on api_key and timestamp so they stay fast with large logs.",
+        "Used Docker Compose to run FastAPI, MongoDB, Redis and Celery together during development."
+      ], link: "" },
+    { title: "Daily Wage Worker Matching Platform API", summary: "Connects day laborers with local employers in real time.", tags: ["FastAPI", "PostgreSQL", "PostGIS", "SQLAlchemy", "Celery"],
+      points: [
+        "Built a FastAPI backend with endpoints for posting jobs and searching workers by skills and location.",
+        "Modeled a PostgreSQL schema with SQLAlchemy ORM covering worker profiles, job posts and application history.",
+        "Added the PostGIS extension to PostgreSQL so workers can find jobs near them.",
+        "Set up Celery workers to send SMS notifications without slowing down API responses."
+      ], link: "" }
+  ],
+  skills: {
+    "Languages": ["Python", "Java"],
+    "Backend": ["FastAPI", "Django", "RESTful APIs"],
+    "Databases": ["PostgreSQL", "MongoDB"],
+    "Tools": ["Git", "VS Code", "Claude"],
+    "Content": ["Content Editing", "Video Shooting"],
+    "Used in projects": ["Celery", "Redis", "SQLAlchemy", "PostGIS", "Docker Compose", "Razorpay"]
+  },
+  experience: [
+    { title: "Skateboarding events", role: "Content creation and event organizing", text: "Helped at skateboarding events through content creation and organizing." }
+  ],
+  education: [
+    { school: "Chandigarh University, Mohali, Punjab", degree: "Bachelor's, Computer Science and Engineering", when: "October 2021 - May 2025", score: "CGPA: 6.78" },
+    { school: "Shishu Niketan, Sector 22D", degree: "Class XII", when: "April 2019 - May 2020", score: "[Percentage]" },
+    { school: "Shishu Niketan, Sector 22D", degree: "Class X", when: "April 2017 - May 2018", score: "[Percentage]" }
+  ],
+  contact: {
+    message: "I'm based in Mohali, Chandigarh. Send me a message about a project or opportunity you have in mind.",
+    email: "amannegi9610@gmail.com", phone: "+91 6283546199", linkedin: "", github: ""
+  }
+};
+
+/* ======================================================================== */
+
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const initials = DATA.name.split(" ").map(w => w[0]).join("");
+const allTags = new Set(DATA.projects.flatMap(p => p.tags.map(t => t.toLowerCase())));
+
+document.title = DATA.name + " | Portfolio";
+$("#brand").textContent = initials;
+$("#role").textContent = DATA.role;
+$("#name").innerHTML = DATA.name.split(" ").map(esc).join("<br>");
+$("#intro").textContent = DATA.intro;
+$("#aboutBody").innerHTML = DATA.about.map(p => "<p>" + esc(p) + "</p>").join("");
+$("#foot").textContent = "© " + new Date().getFullYear() + " " + DATA.name;
+
+/* projects */
+$("#projList").innerHTML = DATA.projects.map((p, i) => `
+  <article class="proj${i === 0 ? " open" : ""}" data-tags="${esc(p.tags.join("|").toLowerCase())}">
+    <button type="button" aria-expanded="${i === 0}">
+      <h3>${esc(p.title)}</h3><span class="plus" aria-hidden="true">+</span>
+      <span class="sum">${esc(p.summary)}</span>
+    </button>
+    <div class="more"><div>
+      <ul>${p.points.map(x => "<li>" + esc(x) + "</li>").join("")}</ul>
+      <div class="tags">${p.tags.map(t => '<span class="chip">' + esc(t) + "</span>").join("")}</div>
+      ${p.link ? '<a class="src" href="' + esc(p.link) + '" rel="noopener">View source code</a>' : ""}
+    </div></div>
+  </article>`).join("");
+document.querySelectorAll(".proj > button").forEach(b => b.addEventListener("click", () => {
+  const open = b.parentElement.classList.toggle("open");
+  b.setAttribute("aria-expanded", open);
+}));
+
+/* filters shared by the filter chips and the skill chips */
+const tagList = [...new Set(DATA.projects.flatMap(p => p.tags))];
+$("#filters").innerHTML = ["All", ...tagList].map(t => `<button type="button" class="chip${t === "All" ? " on" : ""}" data-t="${esc(t)}">${esc(t)}</button>`).join("");
+function setFilter(tag) {
+  const all = tag === "All", key = tag.toLowerCase();
+  document.querySelectorAll("#filters .chip").forEach(c => c.classList.toggle("on", c.dataset.t === tag));
+  document.querySelectorAll(".proj").forEach(p => { p.hidden = !all && !p.dataset.tags.split("|").includes(key); });
+}
+$("#filters").addEventListener("click", e => { const c = e.target.closest(".chip"); if (c) setFilter(c.dataset.t); });
+
+/* skills */
+$("#skillList").innerHTML = Object.entries(DATA.skills).map(([g, list]) => `
+  <div class="grp"><h3>${esc(g)}</h3><div class="chips">${list.map(s => allTags.has(s.toLowerCase())
+    ? `<button type="button" class="chip" data-s="${esc(s)}">${esc(s)}</button>` : `<span class="chip">${esc(s)}</span>`).join("")}</div></div>`).join("");
+$("#skillList").addEventListener("click", e => {
+  const c = e.target.closest("[data-s]"); if (!c) return;
+  const match = tagList.find(t => t.toLowerCase() === c.dataset.s.toLowerCase());
+  setFilter(match); $("#projects").scrollIntoView({ behavior: "smooth" });
+});
+
+/* experience */
+$("#expList").innerHTML = DATA.experience.map(x => `<li><div><b>${esc(x.title)}</b><span>${esc(x.role)}</span><p>${esc(x.text)}</p></div></li>`).join("");
+
+/* education */
+$("#eduList").innerHTML = DATA.education.map(e => `<li><div><b>${esc(e.school)}</b><span>${esc(e.degree)}</span></div><div class="r"><b>${esc(e.when)}</b><span>${esc(e.score)}</span></div></li>`).join("");
+
+/* contact */
+const C = DATA.contact;
+$("#contactMsg").textContent = C.message;
+$("#mail").href = "mailto:" + C.email;
+$("#links").innerHTML = [
+  ["Email", C.email, "mailto:" + C.email], ["Phone", C.phone, "tel:" + C.phone.replace(/\s/g, "")],
+  ["LinkedIn", C.linkedin, C.linkedin], ["GitHub", C.github, C.github]
+].filter(l => l[1]).map(l => `<li><b>${l[0]}</b> <a href="${esc(l[2])}" rel="noopener">${esc(l[1].replace(/^https?:\/\//, ""))}</a></li>`).join("");
+function toast(msg) { const t = $("#toast"); t.textContent = msg; t.classList.add("show"); clearTimeout(toast.id); toast.id = setTimeout(() => t.classList.remove("show"), 2200); }
+$("#copy").addEventListener("click", () => {
+  (navigator.clipboard ? navigator.clipboard.writeText(C.email) : Promise.reject())
+    .then(() => toast("Email copied"), () => toast("Copy failed. Select the email above instead."));
+});
+
+/* theme toggle */
+const themeBtn = $("#theme");
+function paintTheme() { const d = document.documentElement.dataset.theme === "dark"; themeBtn.textContent = d ? "Light mode" : "Dark mode"; themeBtn.setAttribute("aria-pressed", d); }
+themeBtn.addEventListener("click", () => {
+  const next = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+  document.documentElement.dataset.theme = next;
+  try { localStorage.setItem("theme", next); } catch (e) {}
+  paintTheme();
+});
+paintTheme();
+
+/* highlight current section in the nav */
+const links = [...document.querySelectorAll("#nav a")];
+const io = new IntersectionObserver(es => es.forEach(en => {
+  if (en.isIntersecting) links.forEach(a => a.classList.toggle("on", a.getAttribute("href") === "#" + en.target.id));
+}), { rootMargin: "-45% 0px -50% 0px" });
+document.querySelectorAll("main section").forEach(s => io.observe(s));
+
+/* hero cursor light */
+const hero = $(".hero");
+hero.addEventListener("pointermove", e => {
+  const r = hero.getBoundingClientRect();
+  hero.style.setProperty("--mx", (e.clientX - r.left) + "px");
+  hero.style.setProperty("--my", (e.clientY - r.top) + "px");
+});
+</script>
+</body>
+</html>
